@@ -1,10 +1,11 @@
 import { Component } from 'react';
-import { Searchbar } from './Searchbar/Searchbar';
+import { Searchbar } from '../Searchbar/Searchbar';
 import { getImages } from 'service/image-service';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Button } from './Button/Button.styled';
-import { Text } from './Text/Text.styled';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
+import { Button } from '../Button/Button.styled';
+import { Text } from '../Text/Text.styled';
 import { BallTriangle } from 'react-loader-spinner';
+import { AppDiv } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -17,11 +18,6 @@ export class App extends Component {
     isVisibleBtn: false,
   };
 
-  componentDidMount() {
-    //this.getImagesByQuery('cat', 40);
-    //console.log(this.state.imagesList);
-  }
-
   componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
     if (prevState.query !== query || prevState.page !== page) {
@@ -33,7 +29,7 @@ export class App extends Component {
     try {
       this.setState({ isLoading: true });
       const { totalHits, hits } = await getImages(query, page);
-      console.log(page, totalHits / 12);
+
       if (hits.length === 0) {
         this.setState({ isEmpty: true });
         return;
@@ -69,7 +65,7 @@ export class App extends Component {
   render() {
     const { imagesList, isLoading, isEmpty, isVisibleBtn } = this.state;
     return (
-      <>
+      <AppDiv>
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
         <ImageGallery imagesList={imagesList} />
         {isLoading && (
@@ -93,7 +89,7 @@ export class App extends Component {
             Load more
           </Button>
         )}
-      </>
+      </AppDiv>
     );
   }
 }
