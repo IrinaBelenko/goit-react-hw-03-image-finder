@@ -30,7 +30,7 @@ export class App extends Component {
     try {
       this.setState({ isLoading: true });
       const { totalHits, hits } = await getImages(query, page);
-      console.log(hits);
+      //console.log(hits);
       if (hits.length === 0) {
         this.setState({ isEmpty: true });
         return;
