@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import {
   SearchForm,
   SearchFormButton,
@@ -7,23 +8,42 @@ import {
 } from './Searchbar.styled';
 import { FiSearch } from 'react-icons/fi';
 
-export const Searchbar = ({ text, counter, id, onDelete }) => {
-  return (
-    <SearchHeader>
-      <SearchForm>
-        <SearchFormButton type="submit">
-          <SearchFormButtonLabel>
-            <FiSearch size="16px" />
-          </SearchFormButtonLabel>
-        </SearchFormButton>
+export class Searchbar extends Component {
+  state = {
+    query: '',
+  };
 
-        <SearchFormInput
-          type="text"
-          autocomplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </SearchForm>
-    </SearchHeader>
-  );
-};
+  handleSubmit = event => {
+    event.preventDefault();
+    // обнуление параметров
+    this.props.onSubmit(this.state.query);
+    this.setState({ query: '' });
+  };
+
+  handleChange = event => {
+    this.setState({ query: event.target.value });
+  };
+
+  render() {
+    const { query } = this.state;
+    return (
+      <SearchHeader>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+            <SearchFormButtonLabel>
+              <FiSearch size="16px" />
+            </SearchFormButtonLabel>
+          </SearchFormButton>
+          <SearchFormInput
+            type="text"
+            autocomplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={query}
+            onChange={this.handleChange}
+          />
+        </SearchForm>
+      </SearchHeader>
+    );
+  }
+}
