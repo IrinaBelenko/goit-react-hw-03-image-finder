@@ -3,6 +3,8 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { getImages } from 'service/image-service';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button.styled';
+import { Text } from './Text/Text.styled';
+import { BallTriangle } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
@@ -70,8 +72,22 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
         <ImageGallery imagesList={imagesList} />
-        {isLoading && <p>Loading ... </p>}
-        {isEmpty && <p>Sorry. There are no images ... 😭</p>}
+        {isLoading && (
+          <Text>
+            <BallTriangle
+              height={100}
+              width={100}
+              radius={5}
+              color="#4d5ea9"
+              ariaLabel="ball-triangle-loading"
+              wrapperClass={{}}
+              wrapperStyle=""
+              visible={true}
+            />
+            Loading ...{' '}
+          </Text>
+        )}
+        {isEmpty && <Text>Sorry. There are no images ... 😭</Text>}
         {isVisibleBtn && (
           <Button type="button" onClick={this.onLoadMore}>
             Load more
