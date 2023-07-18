@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { getImages } from 'service/image-service';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Button } from './Button/Button.styled';
 
 export class App extends Component {
   state = {
@@ -30,7 +31,7 @@ export class App extends Component {
     try {
       this.setState({ isLoading: true });
       const { totalHits, hits } = await getImages(query, page);
-      //console.log(hits);
+      console.log(page, totalHits / 12);
       if (hits.length === 0) {
         this.setState({ isEmpty: true });
         return;
@@ -59,11 +60,23 @@ export class App extends Component {
     });
   };
 
+  onLoadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
   render() {
+    const { imagesList, isLoading, isEmpty, isVisibleBtn } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
-        <ImageGallery imagesList={this.state.imagesList} />
+        <ImageGallery imagesList={imagesList} />
+        {isLoading && <p>Loading ... </p>}
+        {isEmpty && <p>Sorry. There are no images ... 😭</p>}
+        {isVisibleBtn && (
+          <Button type="button" onClick={this.onLoadMore}>
+            Load more
+          </Button>
+        )}
       </>
     );
   }
