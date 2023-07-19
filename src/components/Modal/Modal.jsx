@@ -1,5 +1,6 @@
 import { ModalDiv, Overlay } from './Modal.styled';
 import { RiCloseCircleFill } from 'react-icons/ri';
+import PropTypes from 'prop-types';
 
 export const Modal = ({ largeImageURL, closeModal }) => {
   return (
@@ -20,4 +21,9 @@ export const Modal = ({ largeImageURL, closeModal }) => {
       </ModalDiv>
     </Overlay>
   );
+};
+
+Modal.propTypes = {
+  largeImageURL: PropTypes.string,
+  closeModal: PropTypes.func,
 };

@@ -2,6 +2,7 @@ import {
   ImageGalleryItemImage,
   ImageGalleryItemli,
 } from './ImageGalleryItem.styled';
+import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = ({
   webformatURL,
@@ -14,4 +15,11 @@ export const ImageGalleryItem = ({
       <ImageGalleryItemImage src={webformatURL} alt={tags} />
     </ImageGalleryItemli>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string,
+  largeImageURL: PropTypes.string,
+  tags: PropTypes.string,
+  showModal: PropTypes.func,
 };
