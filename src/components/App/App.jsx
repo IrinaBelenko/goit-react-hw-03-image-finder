@@ -6,16 +6,18 @@ import { Button } from '../Button/Button.styled';
 import { Text } from '../Text/Text.styled';
 import { BallTriangle } from 'react-loader-spinner';
 import { AppDiv } from './App.styled';
+import { Modal } from 'components/Modal/Modal';
 
 export class App extends Component {
   state = {
     query: '',
     page: 1,
     imagesList: [],
+    largeImageURL: '',
     isLoading: false,
-    error: null,
     isEmpty: false,
     isVisibleBtn: false,
+    isShowModal: false,
   };
 
   componentDidUpdate(_, prevState) {
@@ -52,9 +54,9 @@ export class App extends Component {
       page: 1,
       imagesList: [],
       isLoading: false,
-      error: null,
       isEmpty: false,
       isVisibleBtn: false,
+      isShowModal: false,
     });
   };
 
@@ -62,12 +64,27 @@ export class App extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
+  showModal = largeImageURL => {
+    this.setState({ isShowModal: true, largeImageURL: largeImageURL });
+  };
+
+  closeModal = () => {
+    this.setState({ isShowModal: false });
+  };
+
   render() {
-    const { imagesList, isLoading, isEmpty, isVisibleBtn } = this.state;
+    const {
+      imagesList,
+      isLoading,
+      isEmpty,
+      isVisibleBtn,
+      isShowModal,
+      largeImageURL,
+    } = this.state;
     return (
       <AppDiv>
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
-        <ImageGallery imagesList={imagesList} />
+        <ImageGallery imagesList={imagesList} showModal={this.showModal} />
         {isLoading && (
           <Text>
             <BallTriangle
@@ -88,6 +105,12 @@ export class App extends Component {
           <Button type="button" onClick={this.onLoadMore}>
             Load more
           </Button>
+        )}
+        {isShowModal && (
+          <Modal
+            largeImageURL={largeImageURL}
+            closeModal={this.closeModal}
+          ></Modal>
         )}
       </AppDiv>
     );

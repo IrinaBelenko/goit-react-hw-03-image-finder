@@ -3,9 +3,14 @@ import {
   ImageGalleryItemli,
 } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ webformatURL, tags }) => {
+export const ImageGalleryItem = ({
+  webformatURL,
+  largeImageURL,
+  tags,
+  showModal,
+}) => {
   return (
-    <ImageGalleryItemli>
+    <ImageGalleryItemli onClick={() => showModal(largeImageURL)}>
       <ImageGalleryItemImage src={webformatURL} alt={tags} />
     </ImageGalleryItemli>
   );
