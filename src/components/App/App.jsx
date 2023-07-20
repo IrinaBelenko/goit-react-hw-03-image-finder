@@ -36,8 +36,16 @@ export class App extends Component {
         this.setState({ isEmpty: true });
         return;
       }
+
+      const imgList = hits.map(hit => ({
+        id: hit.id,
+        webformatURL: hit.webformatURL,
+        largeImageURL: hit.largeImageURL,
+        tags: hit.tags,
+      }));
+
       this.setState(prevState => ({
-        imagesList: [...prevState.imagesList, ...hits],
+        imagesList: [...prevState.imagesList, ...imgList],
         isVisibleBtn: page < Math.ceil(totalHits / 12),
       }));
     } catch (error) {
@@ -72,6 +80,12 @@ export class App extends Component {
     this.setState({ isShowModal: false });
   };
 
+  onOverlay = event => {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  };
+
   render() {
     const {
       imagesList,
@@ -86,7 +100,7 @@ export class App extends Component {
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
         <ImageGallery imagesList={imagesList} showModal={this.showModal} />
         {isLoading && (
-          <Text>
+          <>
             <BallTriangle
               height={100}
               width={100}
@@ -97,8 +111,8 @@ export class App extends Component {
               wrapperStyle=""
               visible={true}
             />
-            Loading ...{' '}
-          </Text>
+            <Text>Loading ... </Text>
+          </>
         )}
         {isEmpty && <Text>Sorry. There are no images ... 😭</Text>}
         {isVisibleBtn && (
@@ -109,6 +123,7 @@ export class App extends Component {
         {isShowModal && (
           <Modal
             largeImageURL={largeImageURL}
+            onOverlay={this.onOverlay}
             closeModal={this.closeModal}
           ></Modal>
         )}
