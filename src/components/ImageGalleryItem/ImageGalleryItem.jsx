@@ -11,7 +11,7 @@ export const ImageGalleryItem = ({
   showModal,
 }) => {
   return (
-    <ImageGalleryItemli onClick={() => showModal(largeImageURL)}>
+    <ImageGalleryItemli onClick={() => showModal(largeImageURL, tags)}>
       <ImageGalleryItemImage src={webformatURL} alt={tags} />
     </ImageGalleryItemli>
   );

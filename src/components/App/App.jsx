@@ -13,7 +13,7 @@ export class App extends Component {
     query: '',
     page: 1,
     imagesList: [],
-    largeImageURL: '',
+    modalParams: { largeImageURL: '', tags: '' },
     isLoading: false,
     isEmpty: false,
     isVisibleBtn: false,
@@ -51,7 +51,7 @@ export class App extends Component {
     } catch (error) {
       console.log(error);
     } finally {
-      setTimeout(() => this.setState({ isLoading: false }), 1000);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -61,6 +61,7 @@ export class App extends Component {
       query,
       page: 1,
       imagesList: [],
+      modalParams: { largeImageURL: '', tags: '' },
       isLoading: false,
       isEmpty: false,
       isVisibleBtn: false,
@@ -72,18 +73,15 @@ export class App extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
-  showModal = largeImageURL => {
-    this.setState({ isShowModal: true, largeImageURL: largeImageURL });
+  showModal = (largeImageURL, tags) => {
+    this.setState({
+      isShowModal: true,
+      modalParams: { largeImageURL, tags },
+    });
   };
 
   closeModal = () => {
     this.setState({ isShowModal: false });
-  };
-
-  onOverlay = event => {
-    if (event.target === event.currentTarget) {
-      this.closeModal();
-    }
   };
 
   render() {
@@ -93,7 +91,7 @@ export class App extends Component {
       isEmpty,
       isVisibleBtn,
       isShowModal,
-      largeImageURL,
+      modalParams,
     } = this.state;
     return (
       <AppDiv>
@@ -122,8 +120,8 @@ export class App extends Component {
         )}
         {isShowModal && (
           <Modal
-            largeImageURL={largeImageURL}
-            onOverlay={this.onOverlay}
+            largeImageURL={modalParams.largeImageURL}
+            tags={modalParams.tags}
             closeModal={this.closeModal}
           ></Modal>
         )}

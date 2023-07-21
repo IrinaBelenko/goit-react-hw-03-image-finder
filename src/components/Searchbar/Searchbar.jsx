@@ -7,6 +7,7 @@ import {
   SearchHeader,
 } from './Searchbar.styled';
 import { FiSearch } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
   state = {
@@ -47,3 +48,7 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
+};
